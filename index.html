@@ -17,6 +17,7 @@
     />
     <link rel="stylesheet" href="css/main.css" />
     <title>Verloop</title>
+    <script src="js/main.js"></script>
   </head>
   <body>
     <div class="title">Verloop Demo</div>
@@ -25,10 +26,27 @@
       <div id="temp"></div>
     </div>
     <div id="tableContainer"></div>
-    <div class="form-group">
-      
+    <div class="form-container">
+      <form>
+        <div class="form-group">
+          <label for="rowID">ID</label>
+          <input type="text" class="form-control" id="rowID">
+        </div>
+        <div class="form-group">
+          <label for="col-1">Col-1 Value</label>
+          <input type="text" class="form-control" id="col-1">
+        </div>
+        <div class="form-group">
+          <label for="col-2">Col-2 Value</label>
+          <input type="text" class="form-control" id="col-2">
+        </div>
+        <div class="form-group">
+          <label for="col-3">Col-3 Value</label>
+          <input type="text" class="form-control" id="col-3">
+        </div>
+        <button type="button" class="btn btn-primary" onclick="table.updateRowFromInput()">Update</button>
+      </form>
     </div>
-    <script src="js/main.js"></script>
     <script>
       const tableElem = document.getElementById("tableContainer");
       const dummyConfig = {
@@ -52,7 +70,7 @@
         data: [
           {
             id: `${Date.now()}`,
-            colData: ["value2", "valueddssd2", true]
+            colData: ["v1", "v1", true]
           },
           {
             id: `${Date.now() + 1}`,

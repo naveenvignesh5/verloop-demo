@@ -26,14 +26,13 @@ class CustomTable {
   }
 
   render() {
-    console.log(this.config.data);
     const rows = this.config.data.map((e, i) => this.generateRow(e, i));
     let renderHTML = [
       '<table class="table table-custom table-bordered">',
       '<tbody class="thead-dark">',
       rows.join(''),
-      "</tbody></table>"
-    ].join("");
+      '</tbody></table>',
+    ].join('');
     this.element.innerHTML = renderHTML;
   }
 
@@ -58,12 +57,25 @@ class CustomTable {
 
   // Update
   updateRow(id, newData) {
+    console.log(this.config.data);
     this.config.data = this.config.data.map(d => {
-        const temp = d;
-        if (temp.id === id) {
-            temp.colData = newData;
+        if (d.id === id) {
+          console.log(d.id, id);
+          d.colData = newData;
         }
-        return temp;
+        return d;
     });
+    this.render();
+  }
+
+  updateRowFromInput() {
+    const col1 = document.getElementById('col-1').value.trim();
+    const col2 = document.getElementById('col-2').value.trim();
+    const col3 = document.getElementById('col-3').value.trim();
+    const id = document.getElementById('rowID').value.trim();
+  
+    this.updateRow(id, [col1, col2, col3]);
   }
 }
+
+
