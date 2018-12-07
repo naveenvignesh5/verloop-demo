@@ -1,63 +1,69 @@
 class CustomTable {
-    constructor(config, element) {
-        this.config = config;
-        this.element = element;
-        this.render();
-    }
+  constructor(config, element) {
+    this.config = config;
+    this.element = element;
+    this.render();
+  }
 
-    render() {
-        let tableRows = '';
-        const dummyConfig = {
-            colDefs: [
-                {
-                    label: 'Text Columns',
-                    width: '40%',
-                    type: 'text',
-                },
-                {
-                    label: 'Text Columns',
-                    width: '40%',
-                    type: 'text',
-                },
-            ],
-            data: [
-                {
-                    id: 'abc',
-                    colData: ['value1', 'value2', true],
-                },
-                {
-                    id: 'abc',
-                    colData: ['value1', 'value2', true],
-                },
-            ],
+  generateRow(rowConfig, rowIndex) {
+    const { colDefs } = this.config;
+    const { id, colData } = rowConfig;
+    const cols = colDefs
+      .map((def, i) => {
+        const { label, width, type } = def;
+        return [
+          '<td><div class="form-group">',
+          `<label for="ip_${rowIndex}_${i}">${label}</label>`,
+          `<input class="form-control" style="width: ${width}" id="ip_${rowIndex}_${i}" type="${type}" value="${
+            colData[i]
+          }" ${type === "checkbox" ? (colData[i] ? "checked" : "") : ""}>`,
+          "</div></td>"
+        ].join("");
+      })
+      .join("");
+
+    return `<tr id="${id}"><td>${id}</td>${cols}<td><button class="btn btn-danger" onclick="table.deleteRow(${id})">Remove</button></td></tr>`;
+  }
+
+  render() {
+    console.log(this.config.data);
+    const rows = this.config.data.map((e, i) => this.generateRow(e, i));
+    let renderHTML = [
+      '<table class="table table-custom table-bordered">',
+      '<tbody class="thead-dark">',
+      rows.join(''),
+      "</tbody></table>"
+    ].join("");
+    this.element.innerHTML = renderHTML;
+  }
+
+  // Add Row
+  addRow(rowConfig) {
+    this.config.data.push(rowConfig);
+    this.render();
+  }
+
+  // Delete
+  deleteRow(e) {
+    const row = document.getElementById(e);
+    let delIndex = null;
+    this.config.data.forEach((r, i) => {
+      if (e === r.id) {
+        delIndex = i;
+      }
+    });
+    this.config.data.splice(delIndex, 1);
+    row.parentNode.removeChild(row);
+  }
+
+  // Update
+  updateRow(id, newData) {
+    this.config.data = this.config.data.map(d => {
+        const temp = d;
+        if (temp.id === id) {
+            temp.colData = newData;
         }
-
-        tableRows += [
-            '<table class="table table-custom table-bordered">',
-            '<thead class="thead-dark">',
-            '<tr><th>Label</th><th>Width (%)</th><th>Type</th><th>Options</th><th>View</th></tr>',
-            '</thead><tbody id="table-content">',
-        ].join('');
-
-        dummyConfig.data.forEach((e, i) => {
-            tableRows += [
-                '<tr>',
-                '<td><input type="text" class="form-control" /></td>',
-                '<td><input type="number" class="form-control" /></td>',
-                '<td><select class="form-control">',
-                '<option>text</option><option>number</option><option>password</option><option>submit</option><option>radio</option>',
-                '</select></td>',
-                '<td><div class="d-flex flex-row align-items-center justify-content-center">',
-                '<button class="btn btn-secondary mr-3">Update</button>',
-                '<button class="btn btn-danger">Delete</button>',
-                '</div></td>',
-                '<td><input type="text" class="form-control" /></td>',
-                '</tr>'
-            ].join('');
-        });
-
-        tableRows += '</tbody></table>';
-
-        document.getElementById('temp').innerHTML = tableRows;
-    }
+        return temp;
+    });
+  }
 }

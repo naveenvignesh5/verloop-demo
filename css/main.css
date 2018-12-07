@@ -11,16 +11,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 20px;
 }
 
 .table-custom {
   /* width: 100%; */
-  margin: 20px;
-}
-
-.table-custom th {
-  text-align: center;
-  border-style: solid;
-  border-color: lightslategray !important;
-  border-width: 2px;
+  /* margin: 20px; */
+  padding: 20px;
 }

@@ -21,26 +21,52 @@
   <body>
     <div class="title">Verloop Demo</div>
     <div class="main-container">
-      <button class="btn btn-primary">Add Row</button>
-      <!-- <table class="table table-custom table-bordered">
-        <thead class="thead-dark">
-          <tr>
-            <th>Label</th>
-            <th>Width (%)</th>
-            <th>Type</th>
-            <th>Options</th>
-            <th>View</th>
-          </tr>
-        </thead>
-        <tbody id="table-content"></tbody>
-      </table> -->
+      <button class="btn btn-primary" onclick="addRow()">Add Row</button>
       <div id="temp"></div>
     </div>
     <div id="tableContainer"></div>
+    <div class="form-group">
+      
+    </div>
     <script src="js/main.js"></script>
     <script>
       const tableElem = document.getElementById("tableContainer");
-      const table = new CustomTable({}, tableElem);
+      const dummyConfig = {
+        colDefs: [
+          {
+            label: "Text Columns",
+            width: "40%",
+            type: "text"
+          },
+          {
+            label: "Text Columns",
+            width: "40%",
+            type: "text"
+          },
+          {
+            label: "Check Box",
+            width: "80%",
+            type: "checkbox"
+          }
+        ],
+        data: [
+          {
+            id: `${Date.now()}`,
+            colData: ["value2", "valueddssd2", true]
+          },
+          {
+            id: `${Date.now() + 1}`,
+            colData: ["value1", "value2", true]
+          }
+        ]
+      };
+      const table = new CustomTable(dummyConfig, tableElem);
+      const addRow = () => {
+        table.addRow({
+          id: `${Date.now()}`,
+          colData: ["default", "default", false]
+        });
+      };
     </script>
     <script
       src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
