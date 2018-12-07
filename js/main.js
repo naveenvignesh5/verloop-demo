@@ -57,7 +57,6 @@ class CustomTable {
 
   // Update
   updateRow(id, newData) {
-    console.log(this.config.data);
     this.config.data = this.config.data.map(d => {
         if (d.id === id) {
           console.log(d.id, id);
@@ -65,7 +64,6 @@ class CustomTable {
         }
         return d;
     });
-    this.render();
   }
 
   updateRowFromInput() {
@@ -75,6 +73,7 @@ class CustomTable {
     const id = document.getElementById('rowID').value.trim();
   
     this.updateRow(id, [col1, col2, col3]);
+    this.render();
   }
 }
 
